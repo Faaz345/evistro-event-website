@@ -95,7 +95,7 @@ const EventRegistrationForm = ({ onSubmit, onSuccess }: EventRegistrationFormPro
           >
             <option value="">Select an event type</option>
             {eventTypes.map((type) => (
-              <option key={type.id} value={type.id}>
+              <option key={type.id} value={type.name}>
                 {type.name}
               </option>
             ))}
@@ -121,6 +121,43 @@ const EventRegistrationForm = ({ onSubmit, onSuccess }: EventRegistrationFormPro
           {errors.event_date && (
             <p className="mt-1 text-sm text-red-400">{errors.event_date.message}</p>
           )}
+        </div>
+        
+        {/* Event Time */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Start Time */}
+          <div>
+            <label htmlFor="start_time" className="block text-sm font-medium mb-1">
+              Start Time <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="time"
+              id="start_time"
+              className="form-input"
+              disabled={loading}
+              {...register('start_time', { required: 'Start time is required' })}
+            />
+            {errors.start_time && (
+              <p className="mt-1 text-sm text-red-400">{errors.start_time.message}</p>
+            )}
+          </div>
+          
+          {/* End Time */}
+          <div>
+            <label htmlFor="end_time" className="block text-sm font-medium mb-1">
+              End Time <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="time"
+              id="end_time"
+              className="form-input"
+              disabled={loading}
+              {...register('end_time', { required: 'End time is required' })}
+            />
+            {errors.end_time && (
+              <p className="mt-1 text-sm text-red-400">{errors.end_time.message}</p>
+            )}
+          </div>
         </div>
         
         {/* Guest Count */}
@@ -248,7 +285,7 @@ const EventRegistrationForm = ({ onSubmit, onSuccess }: EventRegistrationFormPro
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary w-full flex justify-center items-center"
+            className="btn-primary w-full"
           >
             {loading ? <LoadingSpinner size="small" color="white" /> : 'Submit Registration'}
           </button>

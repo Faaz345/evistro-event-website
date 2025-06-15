@@ -2,16 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import LoadingSpinner from '../LoadingSpinner';
 import { motion } from 'framer-motion';
-
-interface EventTracking {
-  id: string;
-  created_at: string;
-  event_type: string;
-  event_date: string;
-  location: string;
-  status: 'upcoming' | 'cancelled';
-  booking_id: string;
-}
+import type { EventTracking } from '../../lib/types';
 
 interface UpcomingEventsProps {
   limit?: number;
@@ -26,6 +17,11 @@ const UpcomingEvents = ({ limit = 5 }: UpcomingEventsProps) => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
+        
+        // First, call the function to check for completed events
+        await supabase.rpc('check_and_update_completed_events');
+        
+        // Then fetch the upcoming events
         const { data, error } = await supabase
           .from('event_tracking')
           .select('*')
@@ -53,6 +49,27 @@ const UpcomingEvents = ({ limit = 5 }: UpcomingEventsProps) => {
       month: 'short',
       day: 'numeric'
     });
+  };
+  
+  // Format time
+  const formatTime = (timeString?: string) => {
+    if (!timeString) return '';
+    
+    try {
+      // Handle time format (assuming HH:MM:SS format)
+      const [hours, minutes] = timeString.split(':');
+      const time = new Date();
+      time.setHours(parseInt(hours), parseInt(minutes), 0);
+      
+      return time.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (err) {
+      console.error('Error formatting time:', err);
+      return timeString;
+    }
   };
 
   // Calculate days remaining
@@ -105,12 +122,17 @@ const UpcomingEvents = ({ limit = 5 }: UpcomingEventsProps) => {
             <div>
               <h3 className="font-medium text-white">{event.event_type}</h3>
               <p className="text-sm text-white/70">{event.location}</p>
-              <div className="mt-1 flex items-center">
+              <div className="mt-1 flex flex-col sm:flex-row sm:items-center">
                 <span className="text-xs text-white/50">
                   {formatDate(event.event_date)}
                 </span>
+                {event.start_time && (
+                  <span className="sm:ml-2 text-xs text-white/50">
+                    {formatTime(event.start_time)} - {formatTime(event.end_time)}
+                  </span>
+                )}
                 {getDaysRemaining(event.event_date) <= 7 && (
-                  <span className="ml-2 px-2 py-1 text-xs rounded-full bg-accent/20 text-accent">
+                  <span className="mt-1 sm:mt-0 sm:ml-2 px-2 py-1 text-xs rounded-full bg-accent/20 text-accent">
                     Soon
                   </span>
                 )}

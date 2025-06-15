@@ -28,6 +28,8 @@ const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
 const AdminMessagesPage = lazy(() => import('./pages/admin/Messages'));
 const AdminEventsPage = lazy(() => import('./pages/admin/Events'));
 const AdminBookingsPage = lazy(() => import('./pages/admin/Bookings'));
+const CreateEventPage = lazy(() => import('./pages/admin/CreateEvent'));
+const EditEventPage = lazy(() => import('./pages/admin/EditEvent'));
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
@@ -146,6 +148,8 @@ function AppRoutes() {
           <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/admin/messages" element={<AdminRoute><AdminMessagesPage /></AdminRoute>} />
           <Route path="/admin/events" element={<AdminRoute><AdminEventsPage /></AdminRoute>} />
+          <Route path="/admin/create-event" element={<AdminRoute><CreateEventPage /></AdminRoute>} />
+          <Route path="/admin/edit-event/:id" element={<AdminRoute><EditEventPage /></AdminRoute>} />
           <Route path="/admin/bookings" element={<AdminRoute><AdminBookingsPage /></AdminRoute>} />
           
           <Route path="*" element={<NotFoundPage />} />

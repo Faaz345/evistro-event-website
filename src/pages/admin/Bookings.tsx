@@ -16,6 +16,8 @@ interface EventTracking {
   location: string;
   status: 'upcoming' | 'cancelled';
   booking_id: string;
+  start_time: string;
+  end_time: string;
 }
 
 const AdminBookingsPage = () => {
@@ -84,20 +86,31 @@ const AdminBookingsPage = () => {
       if (fetchError) throw fetchError;
       
       if (status === 'confirmed') {
+        // Get the start and end times from the booking
+        const startTime = booking.start_time || '09:00:00';
+        const endTime = booking.end_time || '17:00:00';
+        
         // If confirmed, add or update the event tracking
         const eventData: EventTracking = {
           event_type: booking.event_type,
           event_date: booking.event_date,
           location: booking.location,
           status: 'upcoming',
-          booking_id: booking.id || ''
+          booking_id: booking.id || '',
+          start_time: startTime,
+          end_time: endTime
         };
         
         if (existingEvents && existingEvents.length > 0) {
           // Update existing event tracking
           const { error: updateError } = await supabase
             .from('event_tracking')
-            .update({ status: 'upcoming' })
+            .update({ 
+              status: 'upcoming',
+              // Use booking times if available, otherwise keep existing or use defaults
+              start_time: booking.start_time || existingEvents[0].start_time || '09:00:00',
+              end_time: booking.end_time || existingEvents[0].end_time || '17:00:00'
+            })
             .eq('id', existingEvents[0].id);
             
           if (updateError) throw updateError;

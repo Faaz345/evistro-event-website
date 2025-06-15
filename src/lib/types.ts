@@ -12,6 +12,20 @@ export type EventRegistration = {
   payment_status: 'pending' | 'partial' | 'complete';
   created_at?: string;
   status: 'submitted' | 'confirmed' | 'in-progress' | 'completed' | 'cancelled';
+  start_time?: string;
+  end_time?: string;
+};
+
+export type EventTracking = {
+  id?: string;
+  created_at?: string;
+  event_type: string;
+  event_date: string;
+  location: string;
+  status: 'upcoming' | 'cancelled' | 'completed';
+  booking_id: string;
+  start_time?: string;
+  end_time?: string;
 };
 
 export type EventRegistrationFormData = Omit<EventRegistration, 'id' | 'user_id' | 'created_at' | 'payment_status' | 'status'>; 

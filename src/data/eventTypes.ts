@@ -1,57 +1,69 @@
-export const eventTypes = [
+interface EventType {
+  id: number;
+  name: string;
+  description: string;
+}
+
+export const eventTypes: EventType[] = [
   {
-    id: 'birthday',
-    name: 'Birthday Parties',
-    description: 'Make your special day memorable with our custom birthday party packages.',
-    image: '/src/assets/images/event-birthday.svg'
+    id: 1,
+    name: 'Wedding',
+    description: 'Full wedding planning and coordination services'
   },
   {
-    id: 'anniversary',
-    name: 'Anniversaries',
-    description: 'Celebrate your milestones with elegant anniversary arrangements.',
-    image: '/src/assets/images/event-anniversary.svg'
+    id: 2,
+    name: 'Corporate Event',
+    description: 'Business meetings, conferences, and team-building events'
   },
   {
-    id: 'engagement',
-    name: 'Engagement',
-    description: 'Begin your journey together with a perfectly planned engagement event.',
-    image: '/src/assets/images/event-engagement.svg'
+    id: 3,
+    name: 'Birthday Party',
+    description: 'Birthday celebrations for all ages'
   },
   {
-    id: 'surprise',
-    name: 'Surprise Parties',
-    description: 'Create unforgettable moments with our expertly planned surprise celebrations.',
-    image: '/src/assets/images/event-surprise.svg'
+    id: 4,
+    name: 'Anniversary',
+    description: 'Anniversary celebrations and vow renewals'
   },
   {
-    id: 'babyshower',
-    name: 'Baby Shower',
-    description: 'Welcome your little one with our specially designed baby shower events.',
-    image: '/src/assets/images/event-babyshower.svg'
+    id: 5,
+    name: 'Graduation',
+    description: 'Graduation ceremonies and celebrations'
   },
   {
-    id: 'naming',
-    name: 'Naming Ceremony',
-    description: 'Mark this special occasion with a beautiful naming ceremony arrangement.',
-    image: '/src/assets/images/event-naming.svg'
+    id: 6,
+    name: 'Holiday Party',
+    description: 'Seasonal and holiday-themed events'
   },
   {
-    id: 'corporate',
-    name: 'Corporate Events',
-    description: 'Impress your clients and team with our professional corporate event services.',
-    image: '/src/assets/images/event-corporate.svg'
+    id: 7,
+    name: 'Charity Gala',
+    description: 'Fundraising events and charity galas'
   },
   {
-    id: 'videography',
-    name: 'Videography',
-    description: 'Capture every moment with our professional videography services.',
-    image: '/src/assets/images/event-videography.svg'
+    id: 8,
+    name: 'Concert',
+    description: 'Live music performances and concerts'
   },
   {
-    id: 'photography',
-    name: 'Photography',
-    description: 'Preserve your memories with our expert photography services.',
-    image: '/src/assets/images/event-photography.svg'
+    id: 9,
+    name: 'Festival',
+    description: 'Multi-day festivals and cultural events'
+  },
+  {
+    id: 10,
+    name: 'Workshop',
+    description: 'Educational workshops and training sessions'
+  },
+  {
+    id: 11,
+    name: 'Product Launch',
+    description: 'New product announcements and launches'
+  },
+  {
+    id: 12,
+    name: 'Private Party',
+    description: 'Exclusive private gatherings and celebrations'
   }
 ];
 

@@ -6,6 +6,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import type { EventRegistration } from '../../lib/types';
 import UpcomingEvents from '../../components/admin/UpcomingEvents';
+import { updateCompletedEvents } from '../../utils/eventStatus';
 
 type DashboardStats = {
   totalEvents: number;
@@ -32,6 +33,9 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       setError(null);
+      
+      // First check and update any completed events
+      await updateCompletedEvents();
       
       // Fetch all data in parallel for better performance
       const [

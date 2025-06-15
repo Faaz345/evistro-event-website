@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="95" fill="#FFDD00" opacity="0.8"/>
+  <g transform="translate(40, 40)">
+    <!-- Camera body -->
+    <rect x="20" y="40" width="80" height="50" rx="5" fill="#333333"/>
+    <rect x="40" y="30" width="40" height="10" rx="2" fill="#333333"/>
+    
+    <!-- Lens -->
+    <circle cx="60" cy="65" r="20" fill="#4D4D4D"/>
+    <circle cx="60" cy="65" r="15" fill="#666666"/>
+    <circle cx="60" cy="65" r="10" fill="#999999"/>
+    <circle cx="60" cy="65" r="5" fill="#CCCCCC"/>
+    <circle cx="57" cy="62" r="2" fill="#FFFFFF"/>
+    
+    <!-- Flash -->
+    <rect x="85" y="35" width="10" height="5" rx="1" fill="#FFFFFF"/>
+    
+    <!-- Camera button -->
+    <circle cx="90" cy="50" r="3" fill="#FF6B6B"/>
+    
+    <!-- Photo frames -->
+    <rect x="10" y="10" width="20" height="20" rx="2" stroke="#7000FF" stroke-width="2" fill="none"/>
+    <rect x="90" y="10" width="20" height="20" rx="2" stroke="#7000FF" stroke-width="2" fill="none"/>
+    <rect x="10" y="90" width="20" height="20" rx="2" stroke="#7000FF" stroke-width="2" fill="none"/>
+    <rect x="90" y="90" width="20" height="20" rx="2" stroke="#7000FF" stroke-width="2" fill="none"/>
+  </g>
+</svg> 

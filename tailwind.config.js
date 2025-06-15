@@ -5,6 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      'xs': '375px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         primary: "#121212",
@@ -20,6 +28,20 @@ export default {
       backdropFilter: {
         'none': 'none',
         'blur': 'blur(20px)',
+      },
+      spacing: {
+        '18': '4.5rem',
+        '22': '5.5rem',
+      },
+      fontSize: {
+        'xxs': '0.625rem',
+      },
+      height: {
+        'screen-small': '100vh',
+        'screen-large': 'calc(100vh - 4rem)',
+      },
+      touchAction: {
+        'manipulation': 'manipulation',
       },
     },
   },

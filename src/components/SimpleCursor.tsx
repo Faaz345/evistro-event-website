@@ -3,8 +3,18 @@ import { useState, useEffect } from 'react';
 const SimpleCursor = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
 
   useEffect(() => {
+    // Check if device is touch-enabled
+    const isTouchEnabled = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(isTouchEnabled);
+    
+    // If it's a touch device, don't continue with cursor setup
+    if (isTouchEnabled) {
+      return;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       
@@ -13,7 +23,10 @@ const SimpleCursor = () => {
       setIsHovering(
         !!target.closest('button') || 
         !!target.closest('a') || 
-        !!target.closest('.card')
+        !!target.closest('.card') ||
+        !!target.closest('input') ||
+        !!target.closest('select') ||
+        !!target.closest('textarea')
       );
     };
 
@@ -29,6 +42,11 @@ const SimpleCursor = () => {
       document.documentElement.style.cursor = 'auto';
     };
   }, []);
+
+  // Don't render anything on touch devices
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <>

@@ -58,7 +58,10 @@ export const eventTypes = [
 export const contactInfo = {
   phone1: '8850051841',
   phone2: '9082914889',
+  email: 'contact@evistro.com',
   slogan: 'You dream, we plan!',
   tagline: 'Big celebrations, small budgets! We make every event so beautiful and lively, it becomes a memory to cherish forever.',
-  serviceArea: 'Orders accepted all over Mumbai!'
+  serviceArea: 'Orders accepted all over Mumbai!',
+  address: 'Mumbai, Maharashtra, India',
+  mapUrl: 'https://maps.google.com/?q=Mumbai,Maharashtra,India'
 }; 

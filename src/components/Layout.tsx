@@ -68,7 +68,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* Navbar */}
       <header
         className={`fixed w-full z-30 transition-all duration-300 safe-area-inset ${
-          scrolled ? 'bg-primary/90 backdrop-blur shadow-lg' : 'bg-transparent'
+          scrolled ? 'bg-primary/90 backdrop-blur-md shadow-lg' : 'bg-primary/10 backdrop-blur-sm'
         }`}
       >
         <div className="container py-2 sm:py-4 flex justify-between items-center">
@@ -89,8 +89,8 @@ const Layout = ({ children }: LayoutProps) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`hover:text-accent transition-colors py-2 px-3 ${
-                  location.pathname === item.path ? 'text-accent' : 'text-white'
+                className={`nav-link ${
+                  location.pathname === item.path ? 'nav-link-active' : 'nav-link-inactive'
                 }`}
               >
                 {item.label}
@@ -105,8 +105,8 @@ const Layout = ({ children }: LayoutProps) => {
                 key={item.path}
                 to={item.path}
                 onClick={item.onClick}
-                className={`hover:text-accent transition-colors py-2 px-3 ${
-                  location.pathname === item.path ? 'text-accent' : 'text-white'
+                className={`nav-link ${
+                  location.pathname === item.path ? 'nav-link-active' : 'nav-link-inactive'
                 }`}
               >
                 {item.label}
@@ -162,8 +162,8 @@ const Layout = ({ children }: LayoutProps) => {
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`hover:text-accent transition-colors py-3 px-4 rounded-md active:bg-white/10 ${
-                      location.pathname === item.path ? 'text-accent bg-white/5' : 'text-white'
+                    className={`py-3 px-4 rounded-md active:bg-white/10 text-base font-medium hover:text-accent transition-colors ${
+                      location.pathname === item.path ? 'nav-link-active bg-white/5' : 'nav-link-inactive'
                     }`}
                   >
                     {item.label}
@@ -178,8 +178,8 @@ const Layout = ({ children }: LayoutProps) => {
                       setMobileMenuOpen(false);
                       item.onClick?.();
                     }}
-                    className={`hover:text-accent transition-colors py-3 px-4 rounded-md active:bg-white/10 ${
-                      location.pathname === item.path ? 'text-accent bg-white/5' : 'text-white'
+                    className={`py-3 px-4 rounded-md active:bg-white/10 text-base font-medium hover:text-accent transition-colors ${
+                      location.pathname === item.path ? 'nav-link-active bg-white/5' : 'nav-link-inactive'
                     }`}
                   >
                     {item.label}
@@ -200,7 +200,7 @@ const Layout = ({ children }: LayoutProps) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="page-container momentum-scroll"
+            className="page-container momentum-scroll relative z-10"
           >
             {children}
           </motion.div>

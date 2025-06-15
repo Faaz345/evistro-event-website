@@ -64,6 +64,19 @@
     @apply w-full p-3 rounded-md border border-white/20 bg-white/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-accent;
   }
   
+  /* Navbar styling */
+  .nav-link {
+    @apply text-base font-medium hover:text-accent transition-colors py-2 px-3;
+  }
+  
+  .nav-link-active {
+    @apply text-accent;
+  }
+  
+  .nav-link-inactive {
+    @apply text-white;
+  }
+  
   /* Mobile optimized grid layouts */
   .grid-responsive {
     @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6;

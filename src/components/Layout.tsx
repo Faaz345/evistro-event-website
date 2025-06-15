@@ -62,7 +62,7 @@ const Layout = ({ children }: LayoutProps) => {
       
       {/* Background pattern */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <img src="/src/assets/images/bg-pattern.svg" alt="Background Pattern" className="w-full h-full object-cover opacity-50" />
+        <img src="/assets/images/bg-pattern.svg" alt="Background Pattern" className="w-full h-full object-cover opacity-50" />
       </div>
       
       {/* Navbar */}
@@ -79,7 +79,7 @@ const Layout = ({ children }: LayoutProps) => {
               animate={{ opacity: 1, y: 0 }}
               className="h-8 sm:h-10"
             >
-              <img src="/src/assets/logo.svg" alt="EVISTRO Logo" className="h-full" />
+              <img src="/assets/logo.svg" alt="EVISTRO Logo" className="h-full" />
             </motion.div>
           </Link>
 

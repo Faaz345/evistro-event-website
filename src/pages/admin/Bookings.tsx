@@ -5,6 +5,7 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import type { EventRegistration } from '../../lib/types';
+import DebugPanel from '../../components/admin/DebugPanel';
 
 type BookingStatus = 'submitted' | 'confirmed' | 'in-progress' | 'completed' | 'cancelled';
 
@@ -40,25 +41,26 @@ const AdminBookingsPage = () => {
   }, [navigate]);
 
   // Fetch bookings
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('event_registrations')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      console.log('Fetched bookings:', data);
+      setBookings(data || []);
+    } catch (err) {
+      console.error('Error fetching bookings:', err);
+      setError('Failed to load bookings. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from('event_registrations')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        setBookings(data || []);
-      } catch (err) {
-        console.error('Error fetching bookings:', err);
-        setError('Failed to load bookings. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBookings();
   }, []);
 
@@ -187,14 +189,38 @@ const AdminBookingsPage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <motion.h1 
-          className="text-3xl font-bold mb-6 bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Bookings Management
-        </motion.h1>
+        <div className="flex justify-between items-center mb-6">
+          <motion.h1 
+            className="text-3xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Bookings Management
+          </motion.h1>
+          
+          <button 
+            onClick={fetchBookings}
+            className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md transition-colors flex items-center gap-2"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <LoadingSpinner size="small" color="white" />
+                <span>Refreshing...</span>
+              </>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Refresh</span>
+              </>
+            )}
+          </button>
+        </div>
+        
+        <DebugPanel />
         
         {error && (
           <div className={`${error.includes('successfully') ? 'bg-green-500/20 border-green-500/40' : 'bg-red-500/20 border-red-500/40'} text-white px-4 py-3 rounded-lg mb-6 border`}>

@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://xiudkintsxvqtowiggpq.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpdWRraW50c3h2cXRvd2lnZ3BxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTIwNDAsImV4cCI6MjA2NTQyODA0MH0.YCcLBabmMUuwvSmLfPTsoPei0wE8Fz0KbSQU_GaFumk';
+// Use environment variables if available, otherwise use hardcoded values
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://xiudkintsxvqtowiggpq.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpdWRraW50c3h2cXRvd2lnZ3BxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTIwNDAsImV4cCI6MjA2NTQyODA0MH0.YCcLBabmMUuwvSmLfPTsoPei0wE8Fz0KbSQU_GaFumk';
+
+// Log the URL being used (for debugging)
+console.log('Supabase URL:', supabaseUrl);
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 

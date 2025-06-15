@@ -37,7 +37,9 @@ const EventRegistrationsList = ({ registrations, loading, onCancel }: EventRegis
   
   // Helper function to get event type name
   const getEventTypeName = (id: string) => {
-    const eventType = eventTypes.find(type => type.id === id);
+    // Convert string id to number for comparison with eventTypes
+    const numericId = parseInt(id, 10);
+    const eventType = eventTypes.find(type => type.id === numericId);
     return eventType ? eventType.name : id;
   };
   
@@ -93,14 +95,14 @@ const EventRegistrationsList = ({ registrations, loading, onCancel }: EventRegis
   
   if (registrations.length === 0) {
     return (
-      <div className="card p-8 text-center">
-        <div className="text-white/50 mb-4">
+      <div className="card p-8 text-center relative z-10 shadow-lg bg-white/15 backdrop-blur-md border-white/30">
+        <div className="text-white/70 mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </div>
-        <h3 className="text-xl font-medium mb-2">No Event Registrations</h3>
-        <p className="text-white/70">
+        <h3 className="text-xl font-medium mb-2 text-white">No Event Registrations</h3>
+        <p className="text-white/80">
           You haven't registered for any events yet. Use the form to register for your first event.
         </p>
       </div>
@@ -110,7 +112,7 @@ const EventRegistrationsList = ({ registrations, loading, onCancel }: EventRegis
   return (
     <div className="space-y-6">
       {error && (
-        <div className="bg-red-500/20 border border-red-500/50 text-white p-4 rounded-md">
+        <div className="bg-red-500/20 border border-red-500/50 text-white p-4 rounded-md relative z-10">
           {error}
         </div>
       )}
@@ -122,14 +124,14 @@ const EventRegistrationsList = ({ registrations, loading, onCancel }: EventRegis
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, height: 0 }}
-            className="card p-6"
+            className="card p-6 relative z-10 shadow-lg bg-white/15 backdrop-blur-md border-white/30 hover:border-accent/70"
           >
             <div className="flex flex-col md:flex-row justify-between mb-4">
               <div>
-                <h3 className="text-xl font-semibold">
+                <h3 className="text-xl font-semibold text-white">
                   {getEventTypeName(registration.event_type)}
                 </h3>
-                <p className="text-white/70">
+                <p className="text-white/80">
                   {formatDate(registration.event_date)}
                 </p>
               </div>
@@ -146,23 +148,23 @@ const EventRegistrationsList = ({ registrations, loading, onCancel }: EventRegis
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
               <div>
-                <p className="text-xs text-white/50">Location</p>
-                <p className="text-sm">{registration.location}</p>
+                <p className="text-xs text-white/60">Location</p>
+                <p className="text-sm text-white">{registration.location}</p>
               </div>
               <div>
-                <p className="text-xs text-white/50">Guests</p>
-                <p className="text-sm">{registration.guest_count} people</p>
+                <p className="text-xs text-white/60">Guests</p>
+                <p className="text-sm text-white">{registration.guest_count} people</p>
               </div>
               <div>
-                <p className="text-xs text-white/50">Budget</p>
-                <p className="text-sm">₹{registration.budget.toLocaleString('en-IN')}</p>
+                <p className="text-xs text-white/60">Budget</p>
+                <p className="text-sm text-white">₹{registration.budget.toLocaleString('en-IN')}</p>
               </div>
             </div>
             
             {registration.special_requests && (
               <div className="mt-2 mb-4">
-                <p className="text-xs text-white/50">Special Requests</p>
-                <p className="text-sm text-white/80">{registration.special_requests}</p>
+                <p className="text-xs text-white/60">Special Requests</p>
+                <p className="text-sm text-white/90">{registration.special_requests}</p>
               </div>
             )}
             

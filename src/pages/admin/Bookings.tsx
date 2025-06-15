@@ -1,0 +1,285 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
+import AdminLayout from '../../components/admin/AdminLayout';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { motion } from 'framer-motion';
+import type { EventRegistration } from '../../lib/types';
+
+type BookingStatus = 'submitted' | 'confirmed' | 'in-progress' | 'completed' | 'cancelled';
+
+// Interface for event tracking
+interface EventTracking {
+  id?: string;
+  event_type: string;
+  event_date: string;
+  location: string;
+  status: 'upcoming' | 'cancelled';
+  booking_id: string;
+}
+
+const AdminBookingsPage = () => {
+  const [bookings, setBookings] = useState<EventRegistration[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [statusUpdateLoading, setStatusUpdateLoading] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  // Check authentication
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        navigate('/login');
+      }
+    };
+    
+    checkAuth();
+  }, [navigate]);
+
+  // Fetch bookings
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('event_registrations')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setBookings(data || []);
+      } catch (err) {
+        console.error('Error fetching bookings:', err);
+        setError('Failed to load bookings. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
+  // Format date
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // Update event tracking in events table
+  const updateEventTracking = async (booking: EventRegistration, status: BookingStatus) => {
+    try {
+      // Check if there's already an event tracking entry for this booking
+      const { data: existingEvents, error: fetchError } = await supabase
+        .from('event_tracking')
+        .select('*')
+        .eq('booking_id', booking.id);
+      
+      if (fetchError) throw fetchError;
+      
+      if (status === 'confirmed') {
+        // If confirmed, add or update the event tracking
+        const eventData: EventTracking = {
+          event_type: booking.event_type,
+          event_date: booking.event_date,
+          location: booking.location,
+          status: 'upcoming',
+          booking_id: booking.id || ''
+        };
+        
+        if (existingEvents && existingEvents.length > 0) {
+          // Update existing event tracking
+          const { error: updateError } = await supabase
+            .from('event_tracking')
+            .update({ status: 'upcoming' })
+            .eq('id', existingEvents[0].id);
+            
+          if (updateError) throw updateError;
+        } else {
+          // Create new event tracking
+          const { error: insertError } = await supabase
+            .from('event_tracking')
+            .insert(eventData);
+            
+          if (insertError) throw insertError;
+        }
+      } else if (status === 'cancelled') {
+        // If cancelled, update the event tracking to cancelled or remove it
+        if (existingEvents && existingEvents.length > 0) {
+          // Update existing event tracking to cancelled
+          const { error: updateError } = await supabase
+            .from('event_tracking')
+            .update({ status: 'cancelled' })
+            .eq('id', existingEvents[0].id);
+            
+          if (updateError) throw updateError;
+        }
+      }
+      
+      return true;
+    } catch (err) {
+      console.error('Error updating event tracking:', err);
+      return false;
+    }
+  };
+
+  // Update booking status
+  const updateBookingStatus = async (id: string | undefined, status: BookingStatus, booking: EventRegistration) => {
+    if (!id) return;
+    
+    try {
+      setStatusUpdateLoading(id);
+      
+      const { error } = await supabase
+        .from('event_registrations')
+        .update({ status })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Update event tracking
+      await updateEventTracking(booking, status);
+
+      // Update local state
+      setBookings(bookings.map(b => 
+        b.id === id ? { ...b, status } : b
+      ));
+      
+      // Show success message
+      setError(`Booking ${id} successfully ${status === 'confirmed' ? 'confirmed' : 'cancelled'}`);
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    } catch (err) {
+      console.error('Error updating booking:', err);
+      setError('Failed to update booking status.');
+    } finally {
+      setStatusUpdateLoading(null);
+    }
+  };
+
+  return (
+    <AdminLayout>
+      <motion.div 
+        className="p-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.h1 
+          className="text-3xl font-bold mb-6 bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Bookings Management
+        </motion.h1>
+        
+        {error && (
+          <div className={`${error.includes('successfully') ? 'bg-green-500/20 border-green-500/40' : 'bg-red-500/20 border-red-500/40'} text-white px-4 py-3 rounded-lg mb-6 border`}>
+            {error}
+          </div>
+        )}
+
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <LoadingSpinner size="large" color="accent" />
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            {bookings.length === 0 ? (
+              <div className="card p-6 text-center">
+                <p className="text-white/50">No bookings found</p>
+              </div>
+            ) : (
+              <table className="w-full card overflow-hidden">
+                <thead>
+                  <tr className="bg-white/5 border-b border-white/10">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Event</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Customer</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Guests</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-white/70 uppercase tracking-wider">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10">
+                  {bookings.map((booking) => (
+                    <tr key={booking.id} className="hover:bg-white/5 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-white">{booking.event_type}</div>
+                        <div className="text-xs text-white/50">{booking.location}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-white">{booking.contact_email}</div>
+                        <div className="text-xs text-white/50">{booking.contact_phone}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-white">{formatDate(booking.created_at)}</div>
+                        <div className="text-xs text-white/50">Event: {booking.event_date}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                        {booking.guest_count}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          booking.status === 'confirmed' 
+                            ? 'bg-green-500/20 text-green-400' 
+                            : booking.status === 'cancelled'
+                            ? 'bg-red-500/20 text-red-400'
+                            : booking.status === 'completed'
+                            ? 'bg-blue-500/20 text-blue-400'
+                            : booking.status === 'in-progress'
+                            ? 'bg-yellow-500/20 text-yellow-400'
+                            : 'bg-white/20 text-white/70'
+                        }`}>
+                          {booking.status ? booking.status.charAt(0).toUpperCase() + booking.status.slice(1) : 'Pending'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-2">
+                          {statusUpdateLoading === booking.id ? (
+                            <LoadingSpinner size="small" color="accent" />
+                          ) : (
+                            <>
+                              {booking.status !== 'confirmed' && (
+                                <button 
+                                  className="text-secondary hover:text-secondary/80"
+                                  onClick={() => updateBookingStatus(booking.id, 'confirmed', booking)}
+                                >
+                                  Confirm
+                                </button>
+                              )}
+                              {booking.status !== 'cancelled' && (
+                                <button 
+                                  className="text-red-400 hover:text-red-300"
+                                  onClick={() => updateBookingStatus(booking.id, 'cancelled', booking)}
+                                >
+                                  Cancel
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+      </motion.div>
+    </AdminLayout>
+  );
+};
+
+export default AdminBookingsPage; 

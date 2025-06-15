@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="95" fill="#FFDD00" opacity="0.8"/>
+  <g transform="translate(40, 40)">
+    <!-- Birthday cake -->
+    <rect x="20" y="60" width="80" height="40" rx="5" fill="#FF6B6B"/>
+    <rect x="30" y="40" width="60" height="20" rx="5" fill="#FF9E9E"/>
+    <rect x="40" y="20" width="40" height="20" rx="5" fill="#FFD0D0"/>
+    
+    <!-- Candles -->
+    <rect x="50" y="5" width="5" height="15" fill="#4D4D4D"/>
+    <rect x="65" y="5" width="5" height="15" fill="#4D4D4D"/>
+    
+    <!-- Flames -->
+    <path d="M52.5 5C52.5 5 50 0 52.5 -5C55 0 52.5 5 52.5 5Z" fill="#FFD700"/>
+    <path d="M67.5 5C67.5 5 65 0 67.5 -5C70 0 67.5 5 67.5 5Z" fill="#FFD700"/>
+    
+    <!-- Decorations -->
+    <circle cx="30" cy="70" r="3" fill="#FFFFFF"/>
+    <circle cx="50" cy="70" r="3" fill="#FFFFFF"/>
+    <circle cx="70" cy="70" r="3" fill="#FFFFFF"/>
+    <circle cx="90" cy="70" r="3" fill="#FFFFFF"/>
+    
+    <circle cx="40" cy="50" r="3" fill="#FFFFFF"/>
+    <circle cx="60" cy="50" r="3" fill="#FFFFFF"/>
+    <circle cx="80" cy="50" r="3" fill="#FFFFFF"/>
+  </g>
+</svg> 

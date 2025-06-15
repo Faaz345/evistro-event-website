@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="95" fill="#FFDD00" opacity="0.8"/>
+  <g transform="translate(40, 40)">
+    <!-- Diamond ring -->
+    <circle cx="60" cy="70" r="40" stroke="#7000FF" stroke-width="5" fill="none"/>
+    <rect x="50" y="30" width="20" height="20" rx="2" fill="#7000FF"/>
+    
+    <!-- Diamond sparkles -->
+    <path d="M60 30L50 40L60 50L70 40L60 30Z" fill="#FFFFFF"/>
+    <circle cx="60" cy="35" r="2" fill="#FFFFFF"/>
+    <circle cx="55" cy="40" r="1" fill="#FFFFFF"/>
+    <circle cx="65" cy="40" r="1" fill="#FFFFFF"/>
+  </g>
+</svg> 

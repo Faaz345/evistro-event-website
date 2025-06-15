@@ -8,11 +8,12 @@ import EventRegistrationForm from '../components/EventRegistrationForm';
 import EventRegistrationsList from '../components/EventRegistrationsList';
 import LoadingSpinner from '../components/LoadingSpinner';
 import DashboardError from '../components/DashboardError';
+import AccountSettings from '../components/AccountSettings';
 
 const DashboardPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'registrations' | 'new'>('registrations');
+  const [activeTab, setActiveTab] = useState<'registrations' | 'new' | 'account'>('registrations');
   const { 
     registrations, 
     loading, 
@@ -36,12 +37,12 @@ const DashboardPage = () => {
             <div>
               <h1 className="text-3xl font-bold mb-2">My Dashboard</h1>
               <p className="text-white/70">
-                Manage your event registrations and create new bookings
+                Manage your event registrations and account settings
               </p>
             </div>
             
             <div className="mt-4 md:mt-0">
-              <div className="bg-white/10 rounded-lg p-1 flex">
+              <div className="bg-white/10 rounded-lg p-1 flex flex-wrap">
                 <button
                   className={`px-4 py-2 rounded-md transition-all ${
                     activeTab === 'registrations'
@@ -61,6 +62,16 @@ const DashboardPage = () => {
                   onClick={() => setActiveTab('new')}
                 >
                   Register New Event
+                </button>
+                <button
+                  className={`px-4 py-2 rounded-md transition-all ${
+                    activeTab === 'account'
+                      ? 'bg-accent text-white'
+                      : 'text-white/70 hover:text-white'
+                  }`}
+                  onClick={() => setActiveTab('account')}
+                >
+                  Account
                 </button>
               </div>
             </div>
@@ -87,7 +98,7 @@ const DashboardPage = () => {
                 onCancel={cancelRegistration}
               />
             </div>
-          ) : (
+          ) : activeTab === 'new' ? (
             <div>
               <h2 className="text-2xl font-semibold mb-6">Register for a New Event</h2>
               
@@ -98,6 +109,11 @@ const DashboardPage = () => {
                   refreshRegistrations();
                 }}
               />
+            </div>
+          ) : (
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">Account Settings</h2>
+              <AccountSettings />
             </div>
           )}
         </div>

@@ -181,6 +181,55 @@ const AdminBookingsPage = () => {
     }
   };
 
+  // Delete booking completely
+  const deleteBooking = async (id: string | undefined) => {
+    if (!id) return;
+    
+    try {
+      setStatusUpdateLoading(id);
+      
+      // First check if there's an event tracking entry to delete
+      const { data: eventTrackingData } = await supabase
+        .from('event_tracking')
+        .select('id')
+        .eq('booking_id', id);
+      
+      // Delete event tracking entry if it exists
+      if (eventTrackingData && eventTrackingData.length > 0) {
+        const { error: deleteEventError } = await supabase
+          .from('event_tracking')
+          .delete()
+          .eq('booking_id', id);
+        
+        if (deleteEventError) throw deleteEventError;
+      }
+      
+      // Delete the booking
+      const { error } = await supabase
+        .from('event_registrations')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Update local state
+      setBookings(bookings.filter(b => b.id !== id));
+      
+      // Show success message
+      setError(`Booking ${id} successfully deleted`);
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    } catch (err) {
+      console.error('Error deleting booking:', err);
+      setError('Failed to delete booking.');
+    } finally {
+      setStatusUpdateLoading(null);
+    }
+  };
+
   return (
     <AdminLayout>
       <motion.div 
@@ -305,6 +354,16 @@ const AdminBookingsPage = () => {
                                   Cancel
                                 </button>
                               )}
+                              <button 
+                                className="text-red-500 hover:text-red-400"
+                                onClick={() => {
+                                  if (window.confirm('Are you sure you want to permanently delete this booking? This action cannot be undone.')) {
+                                    deleteBooking(booking.id);
+                                  }
+                                }}
+                              >
+                                Delete
+                              </button>
                             </>
                           )}
                         </div>

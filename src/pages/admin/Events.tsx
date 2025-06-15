@@ -10,6 +10,7 @@ const AdminEventsPage = () => {
   const [events, setEvents] = useState<EventTracking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // Check authentication
@@ -51,6 +52,44 @@ const AdminEventsPage = () => {
 
     fetchEvents();
   }, []);
+
+  // Delete event
+  const deleteEvent = async (id: string | undefined) => {
+    if (!id) return;
+    
+    try {
+      setDeletingId(id);
+      setError(null);
+
+      // Get the booking ID associated with this event
+      const event = events.find(e => e.id === id);
+      const bookingId = event?.booking_id;
+      
+      // Delete the event tracking entry
+      const { error: deleteEventError } = await supabase
+        .from('event_tracking')
+        .delete()
+        .eq('id', id);
+      
+      if (deleteEventError) throw deleteEventError;
+
+      // Update local state
+      setEvents(events.filter(e => e.id !== id));
+      
+      // Show success message
+      setError(`Event successfully deleted`);
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    } catch (err) {
+      console.error('Error deleting event:', err);
+      setError('Failed to delete event.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -121,7 +160,7 @@ const AdminEventsPage = () => {
         </div>
         
         {error && (
-          <div className="bg-red-500/20 border border-red-500/40 text-white px-4 py-3 rounded-lg mb-6">
+          <div className={`${error.includes('successfully') ? 'bg-green-500/20 border-green-500/40' : 'bg-red-500/20 border-red-500/40'} text-white px-4 py-3 rounded-lg mb-6 border`}>
             {error}
           </div>
         )}
@@ -210,15 +249,19 @@ const AdminEventsPage = () => {
                           <button 
                             className="p-2 bg-white/10 hover:bg-red-500/20 rounded-md transition-colors"
                             onClick={() => {
-                              if (window.confirm('Are you sure you want to delete this event?')) {
-                                // Delete event functionality will be implemented
-                                alert(`Delete event ${event.id}`);
+                              if (window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
+                                deleteEvent(event.id);
                               }
                             }}
+                            disabled={deletingId === event.id}
                           >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white/70 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                            {deletingId === event.id ? (
+                              <LoadingSpinner size="small" color="accent" />
+                            ) : (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white/70 hover:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            )}
                           </button>
                         </div>
                       </div>

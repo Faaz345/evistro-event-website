@@ -5,7 +5,6 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { motion } from 'framer-motion';
 import type { EventRegistration } from '../../lib/types';
-import DebugPanel from '../../components/admin/DebugPanel';
 
 type BookingStatus = 'submitted' | 'confirmed' | 'in-progress' | 'completed' | 'cancelled';
 
@@ -268,8 +267,6 @@ const AdminBookingsPage = () => {
             )}
           </button>
         </div>
-        
-        <DebugPanel />
         
         {error && (
           <div className={`${error.includes('successfully') ? 'bg-green-500/20 border-green-500/40' : 'bg-red-500/20 border-red-500/40'} text-white px-4 py-3 rounded-lg mb-6 border`}>

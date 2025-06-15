@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -15,6 +15,16 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check for admin parameter in URL
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.get('admin') === 'true') {
+      setLoginType('admin');
+      setIsLogin(true);
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +94,7 @@ const LoginPage = () => {
               transition={{ delay: 0.2, duration: 0.4 }}
               className="text-3xl font-extrabold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent"
             >
-              {isLogin ? 'Sign In' : 'Create Account'}
+              {isLogin ? (loginType === 'admin' ? 'Admin Access' : 'Sign In') : 'Create Account'}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
@@ -92,7 +102,9 @@ const LoginPage = () => {
               transition={{ delay: 0.3, duration: 0.4 }}
               className="mt-2 text-sm text-white/70"
             >
-              {isLogin ? 'Welcome back to EviStro' : 'Join the EviStro community'}
+              {loginType === 'admin' 
+                ? 'Restricted area. Authorized personnel only.' 
+                : isLogin ? 'Welcome back to EviStro' : 'Join the EviStro community'}
             </motion.p>
           </div>
 
@@ -141,7 +153,7 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-1">
-                Email
+                {loginType === 'admin' ? 'Admin Email' : 'Email'}
               </label>
               <input
                 id="email"
@@ -150,7 +162,7 @@ const LoginPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-input"
-                placeholder="you@example.com"
+                placeholder={loginType === 'admin' ? 'admin@example.com' : 'you@example.com'}
                 disabled={loading}
               />
             </div>

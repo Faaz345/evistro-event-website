@@ -23,7 +23,6 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const AdminDocsPage = lazy(() => import('./pages/AdminDocsPage'));
 
 // Admin Pages
-const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
 const AdminMessagesPage = lazy(() => import('./pages/admin/Messages'));
 const AdminEventsPage = lazy(() => import('./pages/admin/Events'));
@@ -92,7 +91,7 @@ const AdminRoute = ({ children }: { children: React.ReactElement }) => {
   }
   
   if (!user || !isAdmin) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to="/login?admin=true" replace />;
   }
   
   return children;
@@ -143,7 +142,6 @@ function AppRoutes() {
           <Route path="/contact" element={<ContactPage />} />
           
           {/* Admin routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/admin/messages" element={<AdminRoute><AdminMessagesPage /></AdminRoute>} />

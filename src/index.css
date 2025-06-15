@@ -66,7 +66,7 @@
   
   /* Mobile optimized grid layouts */
   .grid-responsive {
-    @apply grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6;
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6;
   }
   
   .grid-responsive-md {
@@ -75,19 +75,19 @@
   
   /* Responsive typography */
   .heading-xl {
-    @apply text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold;
   }
   
   .heading-lg {
-    @apply text-2xl xs:text-3xl md:text-4xl font-bold;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold;
   }
   
   .heading-md {
-    @apply text-xl xs:text-2xl md:text-3xl font-semibold;
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold;
   }
   
   .paragraph {
-    @apply text-sm xs:text-base md:text-lg;
+    @apply text-sm sm:text-base md:text-lg;
   }
 }
 

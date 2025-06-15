@@ -43,7 +43,7 @@ const HomePage = () => {
           </motion.p>
           
           <motion.div 
-            className="flex flex-col xs:flex-row justify-center gap-4"
+            className="flex flex-col sm:flex-row justify-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
@@ -303,7 +303,7 @@ const HomePage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col xs:flex-row gap-4 justify-center"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link to="/contact" className="btn-primary">
                 Contact Us

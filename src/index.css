@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    @apply bg-primary text-white font-sans min-h-screen;
+    min-height: -webkit-fill-available;
+    overscroll-behavior-y: none;
+  }
+  
+  /* Style select dropdown to match dark theme */
+  select option {
+    @apply bg-primary text-white;
+  }
+  
+  input, button, textarea, select {
+    @apply touch-manipulation;
+  }
+  
+  /* Fix iOS input zoom issue */
+  input, textarea, select {
+    @apply text-base;
+  }
+  
+  /* Improve tap targets for mobile */
+  button, a {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn {
+    @apply px-4 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 flex items-center justify-center;
+  }
+
+  .btn-primary {
+    @apply btn bg-secondary hover:bg-opacity-80 text-white;
+  }
+
+  .btn-outline {
+    @apply btn border border-accent text-accent hover:bg-accent hover:text-white;
+  }
+
+  .card {
+    @apply rounded-xl overflow-hidden backdrop-blur-sm bg-white/10 border border-white/20 transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply shadow-neon border-accent/50;
+  }
+
+  .form-input {
+    @apply w-full p-3 rounded-md border border-white/20 bg-white/5 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-accent;
+  }
+  
+  /* Navbar styling */
+  .nav-link {
+    @apply text-base font-medium hover:text-accent transition-colors py-2 px-3;
+  }
+  
+  .nav-link-active {
+    @apply text-accent;
+  }
+  
+  .nav-link-inactive {
+    @apply text-white;
+  }
+  
+  /* Mobile optimized grid layouts */
+  .grid-responsive {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6;
+  }
+  
+  .grid-responsive-md {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+  }
+  
+  /* Responsive typography */
+  .heading-xl {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold;
+  }
+  
+  .heading-lg {
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold;
+  }
+  
+  .heading-md {
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold;
+  }
+  
+  .paragraph {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+}
+
+/* Custom cursor styles - disable on touch devices */
+@media (pointer: fine) {
+  .cursor-dot {
+    @apply fixed w-3 h-3 bg-accent rounded-full pointer-events-none z-50 transition-transform duration-100 ease-out;
+    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;
+  }
+
+  .cursor-outline {
+    @apply fixed w-8 h-8 border border-accent rounded-full pointer-events-none z-40 transition-all duration-300 ease-out;
+    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;
+  }
+}
+
+/* Global page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 400ms, transform 400ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Contact page animations */
+@keyframes float {
+  0% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+.shadow-neon {
+  box-shadow: 0 0 15px rgba(112, 0, 255, 0.3), 0 0 30px rgba(255, 0, 128, 0.2);
+}
+
+.bg-gradient-glow {
+  background: radial-gradient(circle at center, rgba(112, 0, 255, 0.2), rgba(255, 0, 128, 0.1), transparent 70%);
+}
+
+/* Enhanced form focus effects */
+.form-input:focus {
+  box-shadow: 0 0 0 2px rgba(112, 0, 255, 0.3), 0 0 15px rgba(255, 0, 128, 0.2);
+  border-color: rgba(255, 0, 128, 0.5);
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Safe area insets for notched devices */
+.safe-area-inset {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+/* Improve scrolling on iOS */
+.momentum-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom animations */
+@keyframes fade-in {
+  0% { opacity: 0; transform: translate(-50%, -20px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}

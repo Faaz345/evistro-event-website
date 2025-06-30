@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="95" fill="#FFDD00" opacity="0.8"/>
+  <g transform="translate(40, 40)">
+    <!-- Video camera -->
+    <rect x="20" y="40" width="60" height="40" rx="5" fill="#7000FF"/>
+    <rect x="80" y="50" width="20" height="20" fill="#7000FF"/>
+    <path d="M80 50L100 40V80L80 70" fill="#7000FF"/>
+    
+    <!-- Lens -->
+    <circle cx="50" cy="60" r="15" fill="#333333"/>
+    <circle cx="50" cy="60" r="10" fill="#4D4D4D"/>
+    <circle cx="50" cy="60" r="5" fill="#666666"/>
+    <circle cx="47" cy="57" r="2" fill="#FFFFFF"/>
+    
+    <!-- Tripod -->
+    <path d="M50 80V100" stroke="#333333" stroke-width="3"/>
+    <path d="M30 100L70 100" stroke="#333333" stroke-width="3"/>
+    <path d="M30 100L20 120" stroke="#333333" stroke-width="3"/>
+    <path d="M70 100L80 120" stroke="#333333" stroke-width="3"/>
+    
+    <!-- Film strip -->
+    <rect x="10" y="10" width="10" height="30" rx="2" fill="#333333"/>
+    <rect x="12" y="15" width="6" height="4" fill="#FFFFFF"/>
+    <rect x="12" y="23" width="6" height="4" fill="#FFFFFF"/>
+    <rect x="12" y="31" width="6" height="4" fill="#FFFFFF"/>
+  </g>
+</svg> 

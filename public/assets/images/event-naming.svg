@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="95" fill="#FFDD00" opacity="0.8"/>
+  <g transform="translate(40, 40)">
+    <!-- Baby silhouette -->
+    <circle cx="60" cy="40" r="20" fill="#FF9E9E"/>
+    <path d="M40 70C40 70 50 60 60 60C70 60 80 70 80 70C80 70 75 90 60 90C45 90 40 70 40 70Z" fill="#FF9E9E"/>
+    
+    <!-- Decorative elements -->
+    <circle cx="52" cy="35" r="3" fill="#FFFFFF"/>
+    <circle cx="68" cy="35" r="3" fill="#FFFFFF"/>
+    <path d="M55 45C55 45 60 50 65 45" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Name tag -->
+    <rect x="30" y="100" width="60" height="20" rx="5" fill="#7000FF"/>
+    <path d="M40 110H80" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Stars around -->
+    <path d="M20 20L25 30L15 30L20 20Z" fill="#7000FF"/>
+    <path d="M100 20L105 30L95 30L100 20Z" fill="#7000FF"/>
+    <path d="M20 100L25 110L15 110L20 100Z" fill="#7000FF"/>
+    <path d="M100 100L105 110L95 110L100 100Z" fill="#7000FF"/>
+  </g>
+</svg> 

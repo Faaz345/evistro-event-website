@@ -1,0 +1,7 @@
+2025-06-30T20:52:01.854Z - Starting account deletion processing...
+2025-06-30T20:52:01.856Z - Checking database setup...
+2025-06-30T20:52:02.374Z - Database setup looks good
+2025-06-30T20:52:02.664Z - Found 1 deletion requests to process
+2025-06-30T20:52:02.665Z - Processing deletion for user: 69a35c45-dd4d-4058-924f-95bcab59e8f0 (tdfgaming999@gmail.com)
+2025-06-30T20:52:03.027Z - Successfully deleted user: 69a35c45-dd4d-4058-924f-95bcab59e8f0 (tdfgaming999@gmail.com)
+2025-06-30T20:52:03.028Z - Finished processing deletion requests
